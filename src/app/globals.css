@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/*
+  Sistema de diseño — sólido, negro + verde.
+  Tarjetas planas y opacas (sin blur/transparencia), fondo casi
+  negro, un verde como color de marca (calorías, acciones
+  primarias). Cada macro conserva su propio color para que se
+  puedan distinguir de un vistazo, como en apps de referencia
+  tipo MyFitnessPal/YAZIO.
+*/
+
+:root {
+  color-scheme: dark;
+
+  --background: #0a0b0d;
+  --surface: #16181c;
+  --surface-elevated: #1c1f24;
+  --border: rgba(255, 255, 255, 0.08);
+  --foreground: #f5f6f7;
+  --muted: #8b8f96;
+
+  --accent-calories: #22c55e;
+  --accent-protein: #3b82f6;
+  --accent-carbs: #f43f5e;
+  --accent-fat: #f5a623;
+
+  --positive: #22c55e;
+  --negative: #ef4444;
+}
+
+/* Modo claro — mismo lenguaje visual, tarjetas planas claras.
+   Toggle real se construye en la Fase 5. */
+.light {
+  color-scheme: light;
+
+  --background: #f3f4f6;
+  --surface: #ffffff;
+  --surface-elevated: #f7f8f9;
+  --border: rgba(15, 23, 42, 0.08);
+  --foreground: #0b0e14;
+  --muted: #5b6472;
+
+  --accent-calories: #16a34a;
+  --accent-protein: #2563eb;
+  --accent-carbs: #e11d48;
+  --accent-fat: #d97706;
+
+  --positive: #16a34a;
+  --negative: #dc2626;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+
+  --color-calories: var(--accent-calories);
+  --color-protein: var(--accent-protein);
+  --color-carbs: var(--accent-carbs);
+  --color-fat: var(--accent-fat);
+
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/*
+  Fix del "zoom" al agregar un alimento en mobile: Safari/iOS hace
+  zoom automático de toda la página cuando un input/select enfocado
+  tiene font-size menor a 16px, y ese zoom se queda pegado — se ve
+  como si el layout se "agrandara y rompiera". Forzamos 16px en
+  todos los campos de formulario sólo en viewports chicos (el resto
+  del diseño sigue en text-sm).
+*/
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Espacio para la barra de navegación inferior fija + safe area de
+   iOS (notch), para que el contenido no quede tapado detrás. */
+.pb-nav {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Números — calorías, macros, cantidades. Tabulares, en la
+   tipografía display (Outfit): legibles y con carácter. */
+.tabular-data {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
